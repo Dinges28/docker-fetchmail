@@ -5,7 +5,7 @@
 alpine linux with fetchmail and logrotate
 
 ```
-docker run -it --name fetchmail -v /fetchmail_config:/data -e TIMECRON:300 cguenther/docker-fetchmail
+docker run -it --name fetchmail -v /fetchmail_config:/data -e TIMECRON:300 patrickstigler/docker-fetchmail
 ```
 TIMECRON: Time to Recheck mail, if nothing set it defaults to 300 seconds (which should accept the most mail servers)
 
@@ -33,7 +33,7 @@ mount the folder, which contains the `etc/fetchmailrc` into the `/data` of the c
 ```yml
 fetchmail:
   restart: always
-  image: cguenther/docker-fetchmail
+  image: patrickstigler/docker-fetchmail
   hostname: fetchmail
   volumes:
     - ./fetchmail:/data:rw
