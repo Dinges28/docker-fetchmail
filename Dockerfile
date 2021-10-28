@@ -19,7 +19,7 @@ ADD start.sh /bin/start.sh
 #add fetchmail_daemon script
 ADD fetchmail_daemon.sh /bin/fetchmail_daemon.sh
 #add sample config
-ADD fetchmailrc /data/etc/fetchmailrc
+ADD fetchmailrc /data/etc/sample/fetchmailrc
 
 #set startup script rights
 RUN chmod 0700 /bin/start.sh; \
