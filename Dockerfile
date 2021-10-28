@@ -1,5 +1,4 @@
 FROM alpine:latest
-MAINTAINER cguenther.tu.chemnitz@gmail.com
 
 #install necessary packages
 RUN apk update; \
@@ -19,6 +18,8 @@ ADD etc/logrotate.d/fetchmail /etc/logrotate.d/fetchmail
 ADD start.sh /bin/start.sh
 #add fetchmail_daemon script
 ADD fetchmail_daemon.sh /bin/fetchmail_daemon.sh
+#add sample config
+ADD fetchmailrc.sample /data/etc/fetchmailrc.sample
 
 #set startup script rights
 RUN chmod 0700 /bin/start.sh; \
