@@ -1,30 +1,33 @@
 FROM alpine:latest
 
-#install necessary packages
-RUN apk update; \
-    apk upgrade; \
-    apk add fetchmail openssl logrotate;
+# Install necessary packages
+RUN apk update && \
+    apk upgrade && \
+    apk add fetchmail openssl logrotate crond
 
-#set workdir
+# Set workdir
 WORKDIR /data
 
-#setup fetchmail stuff, fetchmail user is created by installing the fetchmail package
-RUN chown fetchmail:fetchmail /data; \
-    chmod 0744 /data; 
+# Setup fetchmail permissions
+RUN chown fetchmail:fetchmail /data && \
+    chmod 0744 /data 
 
-#add logrotate fetchmail config
+# Add logrotate configuration for fetchmail
 ADD etc/logrotate.d/fetchmail /etc/logrotate.d/fetchmail
-#add startup script
+
+# Add startup script and fetchmail daemon script
 ADD start.sh /bin/start.sh
-#add fetchmail_daemon script
 ADD fetchmail_daemon.sh /bin/fetchmail_daemon.sh
-#copy sample config
+
+# Copy sample fetchmail configuration
 COPY fetchmailrc /data/etc/sample/fetchmailrc.sample
 
-#set startup script rights
-RUN chmod 0700 /bin/start.sh; \
+# Set the startup script rights
+RUN chmod 0700 /bin/start.sh && \
     chown fetchmail:fetchmail /bin/fetchmail_daemon.sh
 
+# Expose volume for data
 VOLUME ["/data"]
-CMD ["/bin/sh", "/bin/start.sh"]
 
+# Start cron service and fetchmail
+CMD ["sh", "-c", "crond && /bin/sh /bin/start.sh"]
