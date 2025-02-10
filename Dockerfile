@@ -3,7 +3,7 @@ FROM alpine:latest
 # Install necessary packages
 RUN apk update && \
     apk upgrade && \
-    apk add fetchmail openssl logrotate crond
+    apk add fetchmail openssl logrotate busybox
 
 # Set workdir
 WORKDIR /data
@@ -30,4 +30,4 @@ RUN chmod 0700 /bin/start.sh && \
 VOLUME ["/data"]
 
 # Start cron service and fetchmail
-CMD ["sh", "-c", "crond && /bin/sh /bin/start.sh"]
+CMD ["sh", "-c", "/usr/sbin/crond && /bin/sh /bin/start.sh"]
